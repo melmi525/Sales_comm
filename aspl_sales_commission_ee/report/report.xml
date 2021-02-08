@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+         <report id="report_print_commission_summary"
+            string="Print Commission Summary"
+            model="wizard.commission.summary"
+            report_type="qweb-pdf"
+            file="aspl_sales_commission_ee.print_commission_template"
+            name="aspl_sales_commission_ee.print_commission_template"
+            menu="False"/>
+
+    </data>
+</odoo>

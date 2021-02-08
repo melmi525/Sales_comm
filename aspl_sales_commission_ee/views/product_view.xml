@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="aspl_inherit_product_products_form_view" model="ir.ui.view">
+            <field name="name">product.product.form</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form//sheet//notebook" position="inside">
+                    <page string="Sales Commission">
+                        <field name="product_comm_ids">
+                            <tree editable="bottom">
+                                <field name="job_id"/>
+                                <field name="user_ids" widget="many2many_tags"
+                                    options="{'no_create': True}"
+                                                                       context="{'ctx_job_id': job_id}"/>
+                                <field name="compute_price_type"/>
+                                <field name="commission"/>
+                                <field name="product_id" invisible="1"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="aspl_inherit_product_category_form_view" model="ir.ui.view">
+            <field name="name">product.category.form</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="product.product_category_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form//sheet" position="inside">
+                    <notebook>
+                        <page string="Sales Commission">
+                            <field name="prod_categ_comm_ids">
+                                <tree editable="bottom">
+                                    <field name="job_id"/>
+                                    <field name="user_ids" widget="many2many_tags"
+                                        options="{'no_create': True}"
+                                    context="{'ctx_job_id': job_id}"/>
+                                    <field name="compute_price_type"/>
+                                    <field name="commission"/>
+                                    <field name="categ_id" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

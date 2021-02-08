@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sales_team_commission,access_sales_team_commission,model_sales_team_commission,base.group_user,1,1,1,1
+access_sales_order_commission,access_sales_order_commission,model_sales_order_commission,base.group_user,1,1,1,1
+access_product_categ_commission,access_product_categ_commission,model_product_categ_commission,base.group_user,1,1,1,1
+access_product_commission,access_product_commission,model_product_commission,base.group_user,1,1,1,1
+access_res_partner_commission,access_res_partner_commission,model_res_partner_commission,base.group_user,1,1,1,1
+access_sales_commission,access_sales_commission,model_sales_commission,base.group_user,1,1,1,1

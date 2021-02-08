@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="aspl_inherit_sale_order_form_view" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="team_id" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', 'in', ['sale', 'done', 'cancel'])]}</attribute>
+                </field>
+                <field name="user_id" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', 'in', ['sale', 'done', 'cancel'])]}</attribute>
+                </field>
+                <field name="sale_order_template_id" position="after">
+                    <field name="sales_rep" domain="[('sales_rep', '=', True)]"
+                           attrs="{'required': [('commission_pay_to', '=', 'non_users')],
+                                   'invisible': [('commission_pay_to', '!=', 'non_users')]}"
+                           context="{'default_sales_rep': True}"/>
+                </field>
+                <xpath expr="//sheet//notebook" position="inside">
+                    <page string="Sales Commission">
+                        <group col="4">
+                            <field name="commission_calc" class="oe_inline" attrs="{'readonly': [('state', 'in', ['sale', 'done', 'cancel'])]}"/>
+                            <field name="commission_pay_on" class="oe_inline"/>
+                            <field name="commission_pay_to"
+                                   attrs="{'required': [('commission_calc', '=', 'customer')],
+                                           'invisible': [('commission_calc', '!=', 'customer')]}"/>
+                        </group>
+                        <field name="sale_order_comm_ids">
+                            <tree>
+                                <field name="user_id"/>
+                                <field name="job_id"/>
+                                <field name="commission" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="order_id" invisible="1"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

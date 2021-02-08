@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="aspl_inherit_view_res_partner_form" model="ir.ui.view">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form//sheet/notebook" position="inside">
+                    <page string="Sales Commission">
+                        <group cols="4">
+                            <field name="sales_rep"/>
+                        </group>
+                        <field name="comm_ids">
+                            <tree editable="bottom">
+                                <field name="job_id"/>
+                                <field name="user_ids" widget="many2many_tags"
+                                    options="{'no_create': True}"
+                                context="{'ctx_job_id': job_id}"/>
+                                <field name="compute_price_type"/>
+                                <field name="commission"/>
+                                <field name="partner_id" invisible="1"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="aspl_inherit_crm_team_view_form" model="ir.ui.view">
+            <field name="name">crm.team.form</field>
+            <field name="model">crm.team</field>
+            <field name="inherit_id" ref="sales_team.crm_team_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet//notebook//page[@name='members']" position="after">
+                    <page string="Sales Commission" name="sale_commission">
+                        <field name="sale_team_comm_ids">
+                            <tree editable="bottom">
+                                <field name="job_id"/>
+                                <field name="user_ids" widget="many2many_tags"
+
+                                    options="{'no_create': True}"
+                                    context="{'ctx_job_id': job_id}"/>
+
+                                <field name="compute_price_type"/>
+                                <field name="commission"/>
+                                <field name="sale_team_id" invisible="1"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+   <template id="print_commission_template">
+   <t t-call="web.html_container">
+         <t t-call="web.external_layout">
+                    <t t-foreach="doc_ids" t-as="doc_id">
+                        <div class="page"><br/>
+
+
+                            <br/><br/><div style="text-align:center; width:100%;">
+                                <h4>Commission Details</h4>
+                            </div>
+                            <table class="table table-condensed">
+                                <tbody>
+                                    <t t-set="summary" t-value="{}"/>
+                                    <t t-foreach="data['commission_details']" t-as="detail">
+<!--                                        <tr>-->
+<!--                                            <td><span t-esc="detail_value"/> </td>-->
+<!--                                        </tr>-->
+                                        <t t-if="detail_value[0]['payment_for'] == 'customer'">
+
+                                            <tr><td style="border:1px solid black;" colspan="4"><b><span t-esc="detail_value[0]['partner_name']"/></b></td></tr>
+                                        </t>
+                                        <t t-if="detail_value[0]['payment_for'] == 'user'">
+
+                                            <tr><td style="border:1px solid black;" colspan="4"><b><span t-esc="detail_value[0]['user_name']"/></b></td></tr>
+                                        </t>
+                                        <tr>
+                                            <th style="padding-left:12px;">Source Document</th>
+                                            <th>Commission Date</th>
+                                            <th>Amount</th>
+                                            <th>Pay By</th>
+                                        </tr>
+                                        <t t-set="total_comm" t-value="0"/>
+                                        <tr t-foreach="detail_value" t-as="commdata">
+                                            <td style="padding-left:12px;"><span t-esc="commdata['name']"/></td>
+                                            <td><span t-esc="commdata['date']"/></td>
+                                            <td><span t-esc="commdata['amount']" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: user.company_id.currency_id}"/></td>
+                                            <td><span t-esc="commdata['pay_by']"/></td>
+                                            <t t-set="total_comm" t-value="total_comm + commdata['amount']"/>
+                                        </tr>
+                                        <t t-if="detail_value[0]['payment_for'] == 'customer'">
+                                            <t t-set="summary" t-esc="summary.update({detail_value[0]['partner_name']: total_comm})"/>
+                                        </t>
+                                        <t t-if="detail_value[0]['payment_for'] == 'user'">
+                                            <t t-set="summary" t-esc="summary.update({detail_value[0]['user_name']: total_comm})"/>
+                                        </t>
+                                    </t>
+                                    <t t-if="summary">
+                                        <tr>
+                                            <td colspan="4" style="text-align:center"><h4>Commission Summary</h4></td>
+                                        </tr>
+                                        <tr t-foreach="get_sorted_summary(summary)" t-as="each">
+                                             <td><span t-esc="each[0]"/></td>
+                                           <td colspan="3"><span t-esc="each[1]" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: user.company_id.currency_id}"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

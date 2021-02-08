@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="sales_commission_tree_view" model="ir.ui.view">
+            <field name="name">sales.commission.tree</field>
+            <field name="model">sales.commission</field>
+            <field name="arch" type="xml">
+                <tree create="false" edit="false" delete="false">
+                    <field name="name"/>
+                    <field name="user_id"/>
+                    <field name="commission_date"/>
+                    <field name="amount"/>
+                    <field name="pay_by"/>
+                    <field name="state"/>
+                    <field name="partner_id"/>
+                    <field name="invoice_id" invisible="1"/>
+                    <field name="sale_order_id" invisible="1"/>
+                    <field name="reference_invoice_id" invisible="1"/>
+                    <field name="payslip_id" invisible="1"/>
+                    <button string="Cancel" name="state_cancel" type="object" icon="fa-times fa-lg" confirm="Do you really want to cancel this Commission ?"
+                            attrs="{'invisible':['|',('invoice_id','!=',False),('state','!=','draft')]}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_sales_commission_view" model="ir.actions.act_window">
+            <field name="name">Commission</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sales.commission</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <menuitem name="Sales Commission" id="main_menu_sales_commission" 
+            parent="sale.sale_menu_root" sequence="4"/>
+
+        <menuitem action="action_sales_commission_view" id="menuitem_sales_commission"
+            parent="main_menu_sales_commission"/>
+
+    </data>
+</odoo>

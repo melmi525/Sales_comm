@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="sales_commission_payment_form_view" model="ir.ui.view">
+            <field name="name">sales.commission.payment.form</field>
+            <field name="model">sales.commission.payment</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group col="4">
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                        <field name="payment_for"/>
+                        <field name="user_id" attrs="{'required' : [('payment_for', '=', 'user')],
+                        'invisible': [('payment_for', '!=', 'user')]}"/>
+                        <field name="partner_id" domain="[('sales_rep', '=', True)]"
+                               attrs="{'required' : [('payment_for', '=', 'customer')],
+                        'invisible': [('payment_for', '!=', 'customer')]}"/>
+                    </group>
+                    <footer>
+                        <button string="Generate Invoice" name="generate_invoice" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_sales_commission_payment" model="ir.actions.act_window">
+            <field name="name">Commission Payment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sales.commission.payment</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem action="action_sales_commission_payment" id="menuitem_sales_commission_payment"
+            parent="main_menu_sales_commission"/>
+
+        <!-- Wizard for print the commission Summary report -->
+        <record id="wizard_commission_summary_form_view" model="ir.ui.view">
+            <field name="name">wizard.commission.summary.form</field>
+            <field name="model">wizard.commission.summary</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group col="4">
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                        <field name="job_ids" widget="many2many_tags"/>
+<!--                        <field name="user_ids" widget="many2many_tags"/>-->
+                         <field name="payment_for"/>
+                        <field name="user_ids" widget="many2many_tags" attrs="{'required' : [('payment_for', '=', 'user')],
+                        'invisible': [('payment_for', '!=', 'user')]}"/>
+                        <field name="partner_ids"  widget="many2many_tags" domain="[('sales_rep', '=', True)]"
+                               attrs="{'required' : [('payment_for', '=', 'customer')],
+                        'invisible': [('payment_for', '!=', 'customer')]}"/>
+                    </group>
+                    <footer>
+                        <button string="Print" name="print_commission_report" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_view_wizard_commission_summary" model="ir.actions.act_window">
+            <field name="name">Print Commission Summary</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wizard.commission.summary</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_commission_summary_form_view"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem action="action_view_wizard_commission_summary" id="menuitem_wizard_commission_summary"
+            parent="main_menu_sales_commission"/>
+
+    </data>
+</odoo>
